@@ -1,36 +1,49 @@
 package MovieGroup;
 
+import Intermediary.Printable;
+import Intermediary.Role;
+import StaffGroup.Award;
+import StaffGroup.FilmStudio;
+import StaffGroup.Person;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Movie {
+public class Movie implements Printable {
     private String title;
     private LocalDate release_date;
     private Language language;
     private String storyline;
     private Integer age_restriction;
-    private List<Genre> genres;
-    private List<Role> directors;
-    private List<Role> producers;
-    private List<Role> writers;
-    private List<Role> actors;
+    private List<Genre> genres = new ArrayList<>();
+    private List<Role> directors = new ArrayList<>();
+    private List<Role> producers = new ArrayList<>();
+    private List<Role> writers = new ArrayList<>();
+    private List<Role> actors = new ArrayList<>();
+    private List<Award> awards = new ArrayList<>();
+    private FilmStudio studio;
 
 
     public Movie(String title, LocalDate releaseDate, Language language,
                  String storyline, Integer ageRestriction, List<Genre> genres,
                  List<Role> directors, List<Role> producers, List<Role> writers,
-                 List<Role> actors) {
+                 List<Role> actors, List<Award> awards, FilmStudio studio) {
         this.title = title;
         this.release_date = releaseDate;
         this.language = language;
         this.storyline = storyline;
         this.age_restriction = ageRestriction;
-        this.genres = genres;
-        this.directors = directors;
-        this.producers = producers;
-        this.writers = writers;
-        this.actors = actors;
-        for (Genre genre : this.genres) {
+        if (!genres.isEmpty()) this.genres = genres;
+        if (!directors.isEmpty()) this.directors = directors;
+        if (!producers.isEmpty()) this.producers = producers;
+        if (!writers.isEmpty()) this.writers = writers;
+        if (!actors.isEmpty()) this.actors = actors;
+        if (!awards.isEmpty()) this.awards = awards;
+        this.studio = studio;
+        studio.addMovie(this);
+        for (Genre genre : genres) {
             genre.addMovie(this);
         }
     }
@@ -124,4 +137,48 @@ public class Movie {
         this.release_date = release_date;
     }
 
+
+    // awards
+    public List<Award> getAwards() {
+        return awards;
+    }
+    public void addAward(Award award) {
+        this.awards.add(award);
+    }
+
+
+    // studio
+    public FilmStudio getStudio() {
+        return studio;
+    }
+    public void setStudio(FilmStudio studio) {
+        this.studio = studio;
+    }
+
+
+    @Override
+    public String toString() {
+        return  "Movie title: " + title + '\n' +
+                "Release date: " + release_date + '\n' +
+                "Language: " + language + '\n' +
+                "Storyline: " + storyline + '\n' +
+                "Age restriction: " + (age_restriction > 0 ? (age_restriction.toString() + "+") : "None") + '\n' +
+                "Genres: " + genres + '\n' +
+                "Directors: " + directors.stream()
+                                .map(x -> x.getPerson().getName())
+                                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll) + '\n' +
+                "Producers: " + producers.stream()
+                                .map(x -> x.getPerson().getName())
+                                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll) + '\n' +
+                "Writers: " + writers.stream()
+                                .map(x -> x.getPerson().getName())
+                                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll) + '\n' +
+                "Actors: " + actors.stream()
+                                .map(x -> x.getPerson().getName())
+                                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll) + '\n' +
+                "Awards: " + awards.stream()
+                                .map(Award::getName)
+                                .collect(ArrayList::new, ArrayList::add, ArrayList::addAll) + '\n' +
+                "Film studio: " + studio.getName() + '\n';
+    }
 }

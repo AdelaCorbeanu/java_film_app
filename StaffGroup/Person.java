@@ -1,22 +1,25 @@
 package StaffGroup;
 
+import Intermediary.Printable;
 import MovieGroup.Movie;
-import MovieGroup.Role;
+import Intermediary.Role;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Person {
+public class Person implements Printable {
     private String name;
     private LocalDate date_of_birth;
-    private List<Role> roles;
+    private List<Role> roles = new ArrayList<>();
+    private List<Award> awards = new ArrayList<>();
 
 
-    public Person(String name, LocalDate date_of_birth, List<Role> roles) {
+    public Person(String name, LocalDate date_of_birth, List<Role> roles, List<Award> awards) {
         this.name = name;
         this.date_of_birth = date_of_birth;
-        this.roles = roles;
+        if (!roles.isEmpty()) this.roles = roles;
+        if (!awards.isEmpty()) this.awards = awards;
     }
 
 
@@ -79,5 +82,23 @@ public class Person {
             }
         }
         return playedMovies;
+    }
+
+
+    // awards
+    public List<Award> getAwards() {
+        return awards;
+    }
+    public void addAward(Award award) {
+        this.awards.add(award);
+    }
+
+
+    @Override
+    public String toString() {
+        return  "Full Name: " + name + '\n' +
+                "Date of Birth: " + date_of_birth + '\n' +
+                "Roles: " + roles + '\n' +
+                "Awards: " + awards + '\n';
     }
 }
