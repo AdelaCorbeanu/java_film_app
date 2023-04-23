@@ -4,11 +4,10 @@ import Intermediary.Printable;
 import Intermediary.Role;
 import StaffGroup.Award;
 import StaffGroup.FilmStudio;
-import StaffGroup.Person;
+import StaffGroup.MovieAward;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Movie implements Printable {
@@ -22,14 +21,14 @@ public class Movie implements Printable {
     private List<Role> producers = new ArrayList<>();
     private List<Role> writers = new ArrayList<>();
     private List<Role> actors = new ArrayList<>();
-    private List<Award> awards = new ArrayList<>();
+    private List<MovieAward> awards = new ArrayList<>();
     private FilmStudio studio;
 
 
     public Movie(String title, LocalDate releaseDate, Language language,
                  String storyline, Integer ageRestriction, List<Genre> genres,
                  List<Role> directors, List<Role> producers, List<Role> writers,
-                 List<Role> actors, List<Award> awards, FilmStudio studio) {
+                 List<Role> actors, List<MovieAward> awards, FilmStudio studio) {
         this.title = title;
         this.release_date = releaseDate;
         this.language = language;
@@ -45,6 +44,9 @@ public class Movie implements Printable {
         studio.addMovie(this);
         for (Genre genre : genres) {
             genre.addMovie(this);
+        }
+        for (MovieAward award : awards) {
+            award.setMovie(this);
         }
     }
 
@@ -139,10 +141,10 @@ public class Movie implements Printable {
 
 
     // awards
-    public List<Award> getAwards() {
+    public List<MovieAward> getAwards() {
         return awards;
     }
-    public void addAward(Award award) {
+    public void addAward(MovieAward award) {
         this.awards.add(award);
     }
 

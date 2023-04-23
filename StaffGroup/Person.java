@@ -12,14 +12,17 @@ public class Person implements Printable {
     private String name;
     private LocalDate date_of_birth;
     private List<Role> roles = new ArrayList<>();
-    private List<Award> awards = new ArrayList<>();
+    private List<PersonAward> awards = new ArrayList<>();
 
 
-    public Person(String name, LocalDate date_of_birth, List<Role> roles, List<Award> awards) {
+    public Person(String name, LocalDate date_of_birth, List<Role> roles, List<PersonAward> awards) {
         this.name = name;
         this.date_of_birth = date_of_birth;
         if (!roles.isEmpty()) this.roles = roles;
         if (!awards.isEmpty()) this.awards = awards;
+        for (PersonAward award : awards) {
+            award.setPerson(this);
+        }
     }
 
 
@@ -86,10 +89,10 @@ public class Person implements Printable {
 
 
     // awards
-    public List<Award> getAwards() {
+    public List<PersonAward> getAwards() {
         return awards;
     }
-    public void addAward(Award award) {
+    public void addAward(PersonAward award) {
         this.awards.add(award);
     }
 
