@@ -102,6 +102,9 @@ public class Movie implements Printable {
 
 
     // get staff
+    public List<Role> getDirectors() {
+        return directors;
+    }
     public List<Role> getProducers() {
         return producers;
     }

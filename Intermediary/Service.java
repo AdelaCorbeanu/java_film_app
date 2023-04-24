@@ -176,14 +176,24 @@ public class Service {
     }
 
     public static void deleteEntity(Movie movie, int position) {
-        movieList.remove(position);
+        movieList.remove(position - 1);
+        movie.getStudio().getMovies().remove(movie);
+        movie.getDirectors().forEach(x -> x.getPerson().deleteRole(x));
+        movie.getProducers().forEach(x -> x.getPerson().deleteRole(x));
+        movie.getWriters().forEach(x -> x.getPerson().deleteRole(x));
+        movie.getActors().forEach(x -> x.getPerson().deleteRole(x));
     }
 
     public static void deleteEntity(Person person, int position) {
-        peopleList.remove(position);
+        peopleList.remove(position - 1);
+        person.getDirectedMovies().forEach(movie -> movie.getDirectors().removeIf(director -> director.getPerson() == person));
+        person.getProducedMovies().forEach(movie -> movie.getProducers().removeIf(producer -> producer.getPerson() == person));
+        person.getWrittenMovies().forEach(movie -> movie.getWriters().removeIf(writer -> writer.getPerson() == person));
+        person.getPlayedMovies().forEach(movie -> movie.getActors().removeIf(actor -> actor.getPerson() == person));
     }
 
     public static void deleteEntity(FilmStudio filmStudio, int position) {
-        studioList.remove(position);
+        studioList.remove(position - 1);
+        filmStudio.getMovies().forEach(x -> x.setStudio(null));
     }
 }

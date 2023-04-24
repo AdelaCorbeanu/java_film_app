@@ -478,6 +478,42 @@ public class Main {
                         case 4 -> {}
                     }
                 }
+                // delete info
+                case 3 -> {
+                    System.out.println("Choose what you want to delete:");
+                    seeInfoOptions.forEach(System.out::println);
+                    cmd = s.nextInt();
+                    switch (cmd) {
+                        // delete movie
+                        case 1 -> {
+                            System.out.println("There are all the movies:");
+                            Service.listMoviesAlphabetically();
+                            System.out.println("Which one would you like to delete?");
+                            cmd = s.nextInt();
+                            Service.deleteEntity(Service.getMovieByPosition(cmd), cmd);
+                            System.out.println("The movie has been deleted.");
+                        }
+                        // delete person
+                        case 2 -> {
+                            System.out.println("There are all the people:");
+                            Service.listPeopleAlphabetically();
+                            System.out.println("Which one would you like to delete?");
+                            cmd = s.nextInt();
+                            Service.deleteEntity(Service.getPersonByPosition(cmd), cmd);
+                            System.out.println("The person has been deleted.");
+                        }
+                        // delete film studio
+                        case 3 -> {
+                            System.out.println("There are all the studios:");
+                            Service.listFilmStudios();
+                            System.out.println("Which one would you like to delete?");
+                            cmd = s.nextInt();
+                            Service.deleteEntity(Service.getStudioByPosition(cmd), cmd);
+                            System.out.println("The studio has been deleted.");
+                        }
+                        case 4 -> {}
+                    }
+                }
             }
             // read next command
             System.out.println("The commands available are:\n");
